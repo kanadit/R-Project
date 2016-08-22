@@ -1,0 +1,92 @@
+---
+title: "DimpleKanadia-ANLY512-50-VI-2016"
+author: "Dimple Kanadia"
+date: "July 25, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Data Import & Cleanup
+```{r, echo=TRUE}
+library(dplyr)  # for easy filtering
+library(ggplot2)
+library(datasets)
+
+dat <- read.csv("movie_data.csv")#Import csv
+str(dat)#Check structure of the data frame
+
+# Clean up some variables
+dat$Domestic <- as.numeric(dat$Domestic) #Convert these columns to numeric
+dat$Worldwide <- as.numeric(dat$Worldwide)
+dat$International <- as.numeric(dat$International)
+dat$AVG.rating <- as.numeric(dat$AVG.rating)
+
+
+dat2 <- filter(dat, Title.type == "Feature Film")
+```
+
+
+### Multi-step Visualization
+
+Look at the distribution of earnings by release year.
+```{r, echo=TRUE}
+ggplot(dat2, aes(Year, Worldwide)) +
+  geom_bar(stat = "identity")
+```
+
+Lots of empty year earlier on, I will try just domestic earnings.
+```{r, echo=TRUE}
+ggplot(dat2, aes(Year, Domestic)) +
+  geom_bar(stat = "identity")
+```
+
+No similar patterns.  Looks like missing data early in the time series.
+
+```{r, echo=TRUE, fig.width=20}
+dat3 <- filter(dat2, Year >= 1990)
+
+ggplot(dat3, aes(factor(Year), Domestic)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Annual Domestic Movie Earnings") +
+  ylab("Domestic Earnings (USD)") +
+  xlab("Year")
+```
+## Movies released in 21 century had collected higher revenue in USA.
+
+## Look for International earnings yearly
+```{r, echo=TRUE, fig.width= 20}
+  
+  ggplot(dat3, aes(factor(Year), International))+ 
+  geom_bar(stat = "identity", fill="#FF9999", colour="#FF9999") +
+  ggtitle("Annual International Movie Earnings") +
+  ylab("International Earning (USD)") +
+  xlab("Year")
+```
+## Movies released in year 2012 made the maximum earnings internationally
+
+
+## Look for Worldwide earnings yearly
+```{r, echo=TRUE, fig.width= 20}
+  
+  ggplot(dat3, aes(factor(Year), Worldwide))+ 
+  geom_bar(stat = "identity", fill="#000099", colour="#000099") +
+  ggtitle("Annual Worldwide Movie Earnings") +
+  ylab("Worldwide Earning (USD)") +
+  xlab("Year")
+```
+
+## Look for Average Rating of movies on Year of Release
+```{r, echo=TRUE, fig.width= 10}
+  ggplot(dat3, aes(released, AVG.rating))+ 
+  geom_bar(stat = "identity", fill="#CC79A7", colour="#CC79A7") +
+  ggtitle("Average Rating with Released Year of Movies") +
+  ylab("Average rating") +
+  xlab("Year of Release")
+```
+## Average ratings of movies released in 2005-2008 is very low.It also dropped drastically in 2011
+
+
+

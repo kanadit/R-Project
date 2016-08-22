@@ -1,0 +1,137 @@
+---
+title: "ANLY 512 - Problem Set 2"
+subtitle: "Anscombe's Quartet"
+author: "Dimple Kanadia"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+## Questions
+
+##1. Anscombes quartet is a set of 4 $x,y$ data sets that were published by *Francis Anscombe* in a 1973 paper [*Graphs in statistical analysis*](https://www.jstor.org/stable/2682899?seq=1#page_scan_tab_contents).  For this first question load the `anscombe` data that is part of the `library(datasets)` in `R`.  And assign that data to a new object called `data`.
+
+```{r}
+data <- anscombe
+summary(data)
+x1 <- data[,1]
+x2 <- data[,2]
+x3 <- data[,3]
+x4 <- data[,4]
+y1 <- data[,5]
+y2 <- data[,6]
+y3 <- data[,7]
+y4 <- data[,8]
+```
+
+##2. Summarise the data by calculating the mean, variance, for each column and the correlation between each pair
+
+## Mean of x1, x2, x3, x4
+
+```{r}
+mean(x1)
+mean(x2)
+mean(x3)
+mean(x4)
+```
+##Mean of y1, y2, y3, y4
+```{r}
+mean(y1)
+mean(y2)
+mean(y3)
+mean(y4)
+```
+## Variance of x1, x2, x3, x4
+```{r}
+var(x1)
+var(x2)
+var(x3)
+var(x4)
+```
+
+## Mean of y1, y2, y3, y4
+```{r}
+var(y1)
+var(y2)
+var(y3)
+var(y4)
+```
+
+## Correlation between x1 ~ y1
+```{r}
+cor(x1, y1)
+```
+## Correlation between x2 ~ y2
+```{r}
+cor(x2, y2)
+```
+## Correlation between x3 ~ y3
+```{r}
+cor(x3, y3)
+```
+## Correlation between x4 ~ y4
+```{r}
+cor(x4, y4)
+```
+
+##3. Create scatter plots for each $x, y$ pair of data
+
+```{r}
+plot(x1, y1, xlab = "Values of x1", ylab = "Values of y1", type ='p', col = 'red')
+plot(x2, y2, xlab = "Values of x2", ylab = "Values of y2", type ='p', col = 'blue')
+plot(x3, y3, xlab = "Values of x3", ylab = "Values of y3", type ='p', col = 'green')
+plot(x4, y4, xlab = "Values of x4", ylab = "Values of y4", type ='p', col = 'purple')
+```
+
+##4. Now change the symbols on the scatter plots to solid circles and plot them together as a 4 panel graphic
+
+```{r}
+par(mfrow=c(2,2))
+plot(x1, y1, xlab = "Values of x1", ylab = "Values of y1", col = 'red', pch=16, main = "Scatterplot of x1 vs y1")
+plot(x2, y2, xlab = "Values of x2", ylab = "Values of y2", col = 'blue', pch=16, main = "Scatterplot of x2 vs y2")
+plot(x3, y3, xlab = "Values of x3", ylab = "Values of y3", col = 'green', pch=16, main = "Scatterplot of x3 vs y3")
+plot(x4, y4, xlab = "Values of x4", ylab = "Values of y4", col = 'purple', pch=16, main = "Scatterplot of x4 vs y4")
+```
+
+##5. Now fit a linear model to each data set using the `lm()` function
+
+```{r}
+fit1 <- lm(y1 ~ x1, data =anscombe)
+summary(fit1)
+fit2 <- lm(y2 ~ x2, data =anscombe)
+summary(fit2)
+fit3 <- lm(y3 ~ x3, data =anscombe)
+summary(fit3)
+fit4 <- lm(y4 ~ x4, data =anscombe)
+summary(fit4)
+```
+
+#6. Now combine the last two tasks.  Create a four panel scatter plot matrix that has both the data points and the regression lines
+
+```{r}
+par(mfrow=c(2,2))
+plot(x1,y1, main="Scatterplot between x1,y1",col='red', pch=19) 
+abline(fit1, col="brown")
+plot(x2,y2, main="Scatterplot between x2,y2",col='blue', pch=19) 
+abline(fit2, col="brown")
+plot(x3,y3, main="Scatterplot between x3,y3",col='green', pch=19) 
+abline(fit3, col="brown")
+plot(x4,y4, main="Scatterplot between x4,y4",col='purple', pch=19) 
+abline(fit4, col="brown")
+```
+
+#7. Now compare the model fits for each model object.
+
+```{r, results="asis"}
+anova(fit1)
+anova(fit2)
+anova(fit3)
+anova(fit4)
+```
+
+#8. In text, summarize the lesson of Anscombe's Quartet and what it says about the value of data visualization.
+
+Anscombe's Quartet contains four datasets. Though the simple statistical values of four datasets are identical, graphs of four data sets are completely different.This proves the importance of data visualization in form of graphical datasets.
+

@@ -1,0 +1,69 @@
+---
+title: "Problem Set 4"
+author: "Dimple Kanadia"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Summary of *Cleveland and McGill 1985*
+Graphical Perception is the visual decoding by human visual system of quantitative and qualitative information encoded on graphs. The successful graphical  encoding of data is when the visual decoding by human is precise and accurate to reality. With development in graphics different methods for analysing and presenting data in position, angle shape, size, symbols and colors.Identifying elementary tasks and ordering and detection them are the main steps to understand grphical preception.Advanced conputer graphics had developed representation of scientific data like Two tiered Error Bars, Dot Charts, Graphing on Log Base 2 Scale, Scatterplot Smoothing.
+
+## Summary of *Heer and Bostock 2010*
+Knowledge of Graphical perception is very important to choose effective visual encoding. Crowdsourcing that is obtaining the required services, ideas and data contribution from large group of people via online community at negligible cost and within short time frame. Crowdsourcing is low cost and higly scalable option to evaluate data visualization using large design space.On the other hand crowdsourcing has challenges of ecological validity, subject expertise. Amazon Mechanical Turk is the platform used to perform experiments to assess graphical perception. Cost and performance data are obtained from experiments and helped to provide recommendation for efficient visual design using crowdsourcing.
+
+
+### Load packages
+```{r, echo=TRUE}
+library(dplyr)
+library(ggplot2)
+library(datasets)
+```
+
+#Load Data Set "esoph"of Smoking, Alcohol and (O)esophageal Cancer
+```{r, echo=TRUE}
+data("esoph")
+str(esoph)
+head(esoph)
+```
+
+#Vis - 1 Graphical Perception of Qauntitative data on the basis of size and color
+```{r, echo=TRUE}
+g <- ggplot(esoph, aes(x=esoph$agegp)) + xlab("Age Group") + ylab("Number of Alcohol Cases")
+g + geom_bar(aes(fill = alcgp))
+```
+
+
+
+#Vis - 2 Graphical Perception of Qauntitative data on the basis of Angle
+```{r, echo=TRUE}
+size <- c(168, 85,70, 21, 15) ## Create data
+name <- c("Pacific", "Atlantic", "Indian", "Southern", "Arctic") ## Create Data
+pie(size, labels = name, main="Pie Chart of Oceans by Size")
+```
+
+
+#Load Data Set "ToothGrowth" The Effect of Vitamin C on Tooth Growth in Guinea Pigs
+```{r, echo=TRUE}
+data("ToothGrowth")
+str(ToothGrowth)
+head(ToothGrowth)
+```
+
+#Vis - 3 Graphical Perception of Qauntitative data on the basis of shape and color
+```{r, echo=TRUE}
+boxplot(len~supp*dose, data=ToothGrowth, notch=TRUE, 
+  col=(c("green","red")),
+  main="Effect of Vitamin C on Tooth Growth", xlab="Suppliment and Dose")
+```
+
+#Vis - 4 Graphical Perception of Qauntitative data on the basis of Area and color
+```{r, echo=TRUE}
+d <- density(mtcars$mpg)
+plot(d, main="Kernel Density of Miles Per Gallon")
+polygon(d, col="gold", border="blue")
+```

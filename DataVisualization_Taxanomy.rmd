@@ -1,0 +1,101 @@
+---
+title: "ANLY 512 - Problem Set 5"
+author: "Dimple Kanadia"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+#Implementation of R API "plotly"
+```{r, echo=TRUE}
+library(plotly)# Library for interactive browser-based graphics
+library(ggplot2)#Library for Grammer of Graphics
+data("diamonds")# Load "diamonds" dataset included in ggplot2
+d <- diamonds[sample(nrow(diamonds), 500), ]#Sample dataset of 500 rows out of 50,000
+plot_ly(d, x = carat,#X-axis shows the carat of diamond
+        y = price,#Y-axis shows the price of diamond
+        text = paste("Clarity: ", clarity),#Annotation text shows "clarity" of diamonds
+        mode = "markers",#Determines the drawing mode
+        color = carat, size = carat)#Determines color and size based on the range of "carat"
+```
+
+
+#Implementation of 3 D Web Graphic Library using plotly
+```{r,echo=TRUE}
+library(plotly)# Library for interactive browser-based graphics
+library(ggplot2)#Library for Grammer of Graphics
+data("volcano")#Load "volcano" dataset
+plot_ly(z = volcano, type = "surface")
+```
+
+
+#Graphics for Area judgement
+```{r,echo=TRUE}
+library(ggplot2)
+this_base <- "Area of square" 
+#Generated data set "square"
+square <- data.frame(
+#X axis Length of square
+  Length = c(1,2,3,4,5),
+#Y axis Breadth of square
+  Breadth = c(1,2,3,4,5))
+  Area = (square$Length * square$Breadth)
+
+p <- ggplot(square, aes(x = Length, y = Breadth, size = Area)) +
+  geom_point(shape = 22, color = "red", show.legend  = FALSE) +
+  
+  #Size of Square relative to Area of square
+  scale_size_area(max_size = 25) +
+  
+  #Scaling details for X axis
+  scale_x_continuous(breaks = seq(0, 6, 1), limit = c(0, 6), 
+                     expand = c(0, 0)) +
+  #Scaling details for Y axis
+  scale_y_continuous(breaks = seq(0,6, 1), limit = c(0, 6), 
+                     expand = c(0, 0)) +
+ ggtitle("Area of square") +
+  #Theme white background and black lines
+  theme_bw() +
+  #Appearance of main title and lables Font size, face, vertical justification
+  theme(panel.grid.major = element_blank(),
+        plot.title = element_text(size = rel(1.5), face = "bold", vjust = 1.5),
+        axis.title.x = element_text(size = rel(1.5), face = "bold", colour = "green", vjust = 1.5),
+        axis.title.y = element_text(size = rel(1.5), face = "bold",colour = "blue" , vjust = 1.5))
+
+p
+
+```
+
+#Graphics created with hexagonally binned data
+```{r,echo=TRUE}
+library(RColorBrewer)#Loading RColorBrewer Library
+library(hexbin)#Loading Hexbin Library
+library(ggplot2)#Loading ggplot2 Library
+data("diamonds")# Load "diamonds" dataset included in ggplot2
+hex <- colorRampPalette(rev(brewer.pal(12,'Set3')))#Linear color scale
+hexbinplot(diamonds$price~diamonds$carat, data=diamonds, colramp=hex)#hexbinplot function using price and carat of diamonds
+
+```
+
+#3 D Scattter Plot
+```{r,echo=TRUE}
+library("scatterplot3d")#Loading scatterplot3d library
+data("iris")#Load dataset "iris"
+head(iris)#Show sample reords of dataset iris
+colors <- c("#999999", "#E69F00", "#56B4E9")#Choose three colors Blue, Brown, Grey
+colors <- colors[as.numeric(iris$Species)]#Colors to differentiate three species
+#Set value for pch(filled circle shape) and color(as mentioned in colors)
+s3d <- scatterplot3d(iris[,1:3], pch = 16, color=colors)
+#Add legends to graph (xyz coordinates,text of legend, color and shape)
+legend(s3d$xyz.convert(8, 3, 5), legend = levels(iris$Species),
+      col =  c("#999999", "#E69F00", "#56B4E9"), pch = 16)
+```
+
+
+
+
